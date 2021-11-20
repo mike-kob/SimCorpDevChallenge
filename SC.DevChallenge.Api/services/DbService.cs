@@ -4,18 +4,17 @@ using System.Linq;
 using System.Collections.Generic;
 
 using SC.DevChallenge.Api.Models;
-
+using SC.DevChallenge.Api.Contexts;
 
 namespace SC.DevChallenge.Api.Services
 {
-  public class DbService : BaseDbService
+  public class PriceService : BasePriceService
   {
-    public DbService()
+    private readonly IDbContext _dbContext;
+    public PriceService(IDbContext dbContext)
     {
-      values = File.ReadAllLines("./Input/data.csv")
-                                      .Skip(1)
-                                      .Select(v => PriceValues.FromCsv(v))
-                                      .ToList();
+      _dbContext = dbContext;
+      values = dbContext.PriceSet.ToList();
     }
   }
 }
